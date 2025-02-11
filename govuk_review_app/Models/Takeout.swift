@@ -13,5 +13,5 @@ struct Takeout: Identifiable {
     let rating: Double
     let tagline: String
     let office: String
-    //let reviews: [Review]
+    let reviews: [Review]
 }
