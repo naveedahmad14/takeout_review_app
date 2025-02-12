@@ -11,6 +11,10 @@ import SwiftUI
 struct govuk_review_appApp: App {
     let persistenceController = PersistenceController.shared
 
+    init() {
+            persistenceController.addMockData() // Add mock data when app launches
+        }
+    
     var body: some Scene {
         WindowGroup {
             HomeScreen()

@@ -10,9 +10,28 @@ import CoreData
 
 struct HomeScreen: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @StateObject private var viewModel = HomeViewModel() // Attach ViewModel
-    @State private var selectedOffice: String = "Manchester" // Default selected office
-    let offices = ["London", "Manchester", "Bristol"] // List of offices
+    @StateObject private var viewModel = HomeViewModel()
+    @State private var selectedOffice: String = "Manchester"
+    let offices = ["London", "Manchester", "Bristol"]
+
+    var takeoutsPicker: some View {
+        List(viewModel.filteredTakeouts) { takeout in
+            NavigationLink(destination: ReviewsScreen(takeout: takeout)) {
+                VStack(alignment: .leading) {
+                    Text(takeout.name ?? "")
+                        .font(.headline)
+                    Text("⭐ \(String(format: "%.1f", takeout.rating))")
+                        .font(.subheadline)
+                    Text(takeout.tagline ?? "")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
+                .padding(.vertical, 5)
+            }
+        }
+        .listStyle(PlainListStyle())
+
+    }
 
     var body: some View {
         NavigationView {
@@ -24,54 +43,35 @@ struct HomeScreen: View {
                             .font(.system(size: 24, weight: .semibold))
                             .padding(.leading)
 
-                        Picker("Pick office", selection: $viewModel.selectedOffice) { // Directly bind to ViewModel
+                        Picker("Pick office", selection: $viewModel.selectedOffice) {
                             ForEach(offices, id: \.self) { office in
                                 Text(office)
                                     .font(.title)
                                     .tag(office)
                             }
                         }
-                        .pickerStyle(MenuPickerStyle()) // Dropdown style picker
+                        .pickerStyle(MenuPickerStyle())
                         .padding(4)
-
-                        // List of Takeouts
-                        List(viewModel.filteredTakeouts) { takeout in
-                            NavigationLink(destination: ReviewsScreen(takeout: takeout)) {
-                                VStack(alignment: .leading) {
-                                    Text(takeout.name)
-                                        .font(.headline)
-                                    Text("⭐ \(String(format: "%.1f", takeout.rating))")
-                                        .font(.subheadline)
-                                    Text(takeout.tagline)
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                                .padding(.vertical, 5)
-                            }
-                        }
-                        .listStyle(PlainListStyle())
-
+                        //Takeouts Picker
+                        takeoutsPicker
                         Spacer()
                     }
-                }
-                .padding(.leading, -15)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .frame(height: 500) // Explicitly control the total height (adjust as needed)
-                .cornerRadius(5) // Rounded corners for content
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10) // Shape of the border
-                        .stroke(Color.gray, lineWidth: 0.5)
+                    .onAppear {
+                        viewModel.fetchTakeouts()
+                    }
+                    .padding(.leading, -15)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                    .frame(height: 500)
+                    .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 0.5)
                     )
-                Spacer()
+                    Spacer()
+                }
             }
-        }
-        .padding(20)
-    }
-
-    struct HomeScreen_Previews: PreviewProvider {
-        static var previews: some View {
-            HomeScreen()
+            .padding(20)
         }
     }
 }
