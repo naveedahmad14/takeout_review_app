@@ -9,11 +9,12 @@ import Foundation
 import SwiftUI
 
 struct ReviewsScreen: View {
-    let takeout: Takeout
+    let takeout: TakeoutEntity
+    @State private var reviews: [ReviewEntity] = []
 
         var body: some View {
             VStack(alignment: .leading, spacing: 5) {
-                Text(takeout.name)
+                Text(takeout.name ?? "Takeout")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding(.top)
@@ -33,15 +34,15 @@ struct ReviewsScreen: View {
 
                 Divider()
 
-                if takeout.reviews.isEmpty {
+                if reviews.isEmpty {
                     Text("No reviews available.")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                         .padding(.top, 10)
                 } else {
-                    List(takeout.reviews) { review in
+                    List(reviews) { review in
                         VStack(alignment: .leading) {
-                            Text(review.reviewerName)
+                            Text(review.reviewerName ?? "Anonymous")
                                 .font(.headline)
                                 .fontWeight(.bold)
 
@@ -49,22 +50,27 @@ struct ReviewsScreen: View {
                                 .font(.subheadline)
                                 .foregroundColor(.yellow)
 
-                            Text(review.description)
+                            Text(review.reviewDescription ?? "")
                                 .font(.body)
                                 .foregroundColor(.gray)
                                 .padding(.top, 2)
                         }
                         .padding(.vertical, 5)
                     }
-                    .listStyle(PlainListStyle()) // Apply plain list style
-                    .frame(height: 300) // Adjust height of list
+                    .listStyle(PlainListStyle())
+                    .frame(height: 300)
                 }
 
                 Spacer()
+                
             }
-            .frame(maxWidth: .infinity, alignment: .leading) // Align VStack to the left
-            .padding(.leading, 5) // Adjust left padding
-            .padding(.horizontal) // Ensure proper spacing on all sides
+            
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.leading, 5)
+            .padding(.horizontal)
             .navigationTitle("Takeout Reviews")
+            .onAppear {
+                reviews = PersistenceController.shared.fetchReviews(for: takeout)
             }
+        }
     }
