@@ -33,6 +33,20 @@ struct HomeScreen: View {
 
     }
 
+    var deleteTakeouts: some View {
+        Button(action: {
+            PersistenceController.shared.deleteAllData()
+            viewModel.fetchTakeouts()
+        }) {
+            Text("Delete Mock Data")
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+        }
+    }
+
     var body: some View {
         NavigationView {
             VStack {
@@ -54,6 +68,7 @@ struct HomeScreen: View {
                         .padding(4)
                         //Takeouts Picker
                         takeoutsPicker
+                        //deleteTakeouts
                         Spacer()
                     }
                     .onAppear {
