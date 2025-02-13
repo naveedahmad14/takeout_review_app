@@ -11,6 +11,19 @@ import SwiftUI
 struct ReviewsScreen: View {
     let takeout: TakeoutEntity
     @State private var reviews: [ReviewEntity] = []
+    @State private var isAddingReview = false
+
+    var addReviewButton: some View {
+        Button(action: { isAddingReview = true }) {
+            Text("Add Review ➜")
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+        }
+    }
 
         var body: some View {
             VStack(alignment: .leading, spacing: 5) {
@@ -31,6 +44,8 @@ struct ReviewsScreen: View {
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
                     .padding(.top, 5)
+
+                addReviewButton
 
                 Divider()
 
@@ -72,5 +87,15 @@ struct ReviewsScreen: View {
             .onAppear {
                 reviews = PersistenceController.shared.fetchReviews(for: takeout)
             }
+            .sheet(isPresented: $isAddingReview, onDismiss: {
+                fetchReviews() // Refresh reviews when AddReviewScreen is closed
+            }) {
+                AddReviewScreen(takeout: takeout)
+            }
         }
+
+    private func fetchReviews() {
+        reviews = PersistenceController.shared.fetchReviews(for: takeout)
     }
+
+}
