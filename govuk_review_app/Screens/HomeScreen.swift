@@ -47,9 +47,17 @@ struct HomeScreen: View {
         }
     }
 
+    var header: some View {
+        Image("logo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 600)
+    }
+
     var body: some View {
         NavigationView {
             VStack {
+                header
                 HStack {
                     VStack(alignment: .leading, spacing: -8) {
                         // Office Picker
