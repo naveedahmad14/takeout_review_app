@@ -58,17 +58,19 @@ struct AddReviewScreen: View {
     }
 
     private func submitReview() {
-        let newReview = ReviewEntity(context: viewContext)
-        newReview.reviewerName = reviewerName
-        newReview.reviewDescription = reviewText
-        newReview.rating = rating
-        newReview.takeout = takeout
+        // Access the shared instance of PersistenceController to interact with Core Data.
+        // Using a singleton ensures that all database operations use the same managed object context,
+        // preventing redundant instances and maintaining data consistency throughout the app.
+        let persistenceController = PersistenceController.shared
 
-        do {
-            try viewContext.save()
-            dismiss() // Close screen after saving
-        } catch {
-            print("Error saving review: \(error)")
-        }
+        // Add the review to Core Data
+        persistenceController.addReview(
+            to: takeout,
+            reviewerName: reviewerName.isEmpty ? "Anonymous" : reviewerName,
+            rating: rating,
+            description: reviewText
+        )
+        // close addReview screen
+        dismiss()
     }
 }
