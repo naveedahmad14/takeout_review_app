@@ -2,7 +2,7 @@
 //  TakeoutEntity+CoreDataProperties.swift
 //  govuk_review_app
 //
-//  Created by Syed.Ahmad on 12/02/2025.
+//  Created by Syed.Ahmad on 18/02/2025.
 //
 //
 
@@ -21,6 +21,8 @@ extension TakeoutEntity {
     @NSManaged public var office: String?
     @NSManaged public var rating: Double
     @NSManaged public var tagline: String?
+    @NSManaged public var images: [String]?
+    @NSManaged public var imagesURL: [String]?
     @NSManaged public var reviews: NSSet?
 
 }
@@ -44,4 +46,21 @@ extension TakeoutEntity {
 
 extension TakeoutEntity : Identifiable {
 
+}
+
+extension TakeoutEntity {
+    var localImageNames: [String] {
+        guard let name = name else { return ["default_image"] }
+        let baseName = name.replacingOccurrences(of: " ", with: "_").lowercased()
+
+        // Assuming you have multiple images indexed like name_1, name_2, etc.
+        return (1...3).map { "\(baseName)_\($0)" }  // Adjust the range as needed
+    }
+
+    /*
+    // API Image Support (Commented Out for Later)
+    var imageUrlsArray: [String] {
+        (images as? [String]) ?? []
+    }
+    */
 }
