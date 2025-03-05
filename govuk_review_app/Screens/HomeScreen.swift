@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeScreen.swift
 //  govuk_review_app
 //
 //  Created by Syed.Ahmad on 15/01/2025.
@@ -18,6 +18,7 @@ struct HomeScreen: View {
         List(viewModel.filteredTakeouts) { takeout in
             NavigationLink(destination: ReviewsScreen(takeout: takeout)) {
                 VStack(alignment: .leading) {
+                    imageGallery(for: takeout)
                     Text(takeout.name ?? "")
                         .font(.headline)
                     Text("⭐ \(String(format: "%.1f", takeout.rating))")
@@ -31,6 +32,45 @@ struct HomeScreen: View {
         }
         .listStyle(PlainListStyle())
 
+    }
+
+    func imageGallery(for takeout: TakeoutEntity) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 10) {
+
+
+                // Display local image (mock)
+                ForEach(takeout.localImageNames, id: \.self) { imageName in
+                    Image(imageName)
+                    // Use image (e.g., display in an image carousel or stack view)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 150, height: 100)
+                        .clipped()
+                        .cornerRadius(10)
+                }
+
+
+
+                /*
+                // API Image Loading (Commented Out for Now)
+                if !takeout.imageUrlsArray.isEmpty {
+                    ForEach(takeout.imageUrlsArray, id: \.self) { imageURL in
+                        AsyncImage(url: URL(string: imageURL)) { image in
+                            image.resizable()
+                                .scaledToFill()
+                                .frame(width: 150, height: 100)
+                                .clipped()
+                                .cornerRadius(10)
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }
+                }
+                */
+            }
+            .padding(.vertical, 5)
+        }
     }
 
     var deleteTakeouts: some View {
@@ -98,3 +138,5 @@ struct HomeScreen: View {
         }
     }
 }
+
+
