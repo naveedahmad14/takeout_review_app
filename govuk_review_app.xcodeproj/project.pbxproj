@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = B029E4CE2D830D1E0066CE41 /* GoogleMaps */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B099632E2D38125B00F42ACD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = govuk_review_app;
 			packageProductDependencies = (
+				B029E4CE2D830D1E0066CE41 /* GoogleMaps */,
 			);
 			productName = govuk_review_app;
 			productReference = B09963182D38125800F42ACD /* govuk_review_app.app */;
@@ -196,6 +202,7 @@
 			mainGroup = B099630F2D38125800F42ACD;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B09963192D38125800F42ACD /* Products */;
@@ -554,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-maps-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B029E4CE2D830D1E0066CE41 /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
+			productName = GoogleMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B09963102D38125800F42ACD /* Project object */;
 }
