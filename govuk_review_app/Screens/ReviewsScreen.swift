@@ -13,7 +13,32 @@ struct ReviewsScreen: View {
     @State private var reviews: [ReviewEntity] = []
     @State private var isAddingReview = false
 
-    var addReviewButton: some View {
+    // MARK: - Views
+    private var takeoutHeader: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text(takeout.name ?? "Takeout")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top)
+
+            HStack {
+                Text("⭐")
+                Text(String(format: "%.1f", takeout.rating))
+                    .font(.title2)
+            }
+            .font(.title2)
+        }
+    }
+
+    private var reviewsTitle: some View {
+        Text("Reviews")
+            .font(.title)
+            .fontWeight(.bold)
+            .foregroundColor(.gray)
+            .padding(.top, 5)
+    }
+
+    private var addReviewButton: some View {
         Button(action: { isAddingReview = true }) {
             Text("Add Review ➜")
                 .font(.headline)
@@ -25,77 +50,59 @@ struct ReviewsScreen: View {
         }
     }
 
-        var body: some View {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(takeout.name ?? "Takeout")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .padding(.top)
-
-                HStack {
-                    Text("⭐")
-                    Text(String(format: "%.1f", takeout.rating))
-                        .font(.title2)
-                }
-                .font(.title2)
-
-                Text("Reviews")
-                    .font(.title)
-                    .fontWeight(.bold)
+    private var reviewsList: some View {
+        Group {
+            if reviews.isEmpty {
+                Text("No reviews available.")
+                    .font(.subheadline)
                     .foregroundColor(.gray)
-                    .padding(.top, 5)
+                    .padding(.top, 10)
+            } else {
+                List(reviews) { review in
+                    VStack(alignment: .leading) {
+                        Text(review.reviewerName ?? "Anonymous")
+                            .font(.headline)
+                            .fontWeight(.bold)
 
-                addReviewButton
+                        Text("⭐ \(String(format: "%.1f", review.rating))")
+                            .font(.subheadline)
+                            .foregroundColor(.yellow)
 
-                Divider()
-
-                if reviews.isEmpty {
-                    Text("No reviews available.")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                        .padding(.top, 10)
-                } else {
-                    List(reviews) { review in
-                        VStack(alignment: .leading) {
-                            Text(review.reviewerName ?? "Anonymous")
-                                .font(.headline)
-                                .fontWeight(.bold)
-
-                            Text("⭐ \(String(format: "%.1f", review.rating))")
-                                .font(.subheadline)
-                                .foregroundColor(.yellow)
-
-                            Text(review.reviewDescription ?? "")
-                                .font(.body)
-                                .foregroundColor(.gray)
-                                .padding(.top, 2)
-                        }
-                        .padding(.vertical, 5)
+                        Text(review.reviewDescription ?? "")
+                            .font(.body)
+                            .foregroundColor(.gray)
+                            .padding(.top, 2)
                     }
-                    .listStyle(PlainListStyle())
-                    .frame(height: 300)
+                    .padding(.vertical, 5)
                 }
-
-                Spacer()
-                
-            }
-            
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.leading, 5)
-            .padding(.horizontal)
-            .navigationTitle("Takeout Reviews")
-            .onAppear {
-                reviews = PersistenceController.shared.fetchReviews(for: takeout)
-            }
-            .sheet(isPresented: $isAddingReview, onDismiss: {
-                fetchReviews() // Refresh reviews when AddReviewScreen is closed
-            }) {
-                AddReviewScreen(takeout: takeout)
+                .listStyle(PlainListStyle())
+                .frame(height: 500)
             }
         }
+    }
 
+    var body: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            takeoutHeader
+            reviewsTitle
+            Divider()
+            reviewsList
+            Spacer()
+            addReviewButton
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 5)
+        .padding(.bottom, 20)
+        .padding(.horizontal)
+        .navigationTitle("Takeout Reviews")
+        .onAppear { fetchReviews() }
+        .sheet(isPresented: $isAddingReview, onDismiss: { fetchReviews() }) {
+            AddReviewScreen(takeout: takeout)
+        }
+    }
+
+    // MARK: - Functions
     private func fetchReviews() {
         reviews = PersistenceController.shared.fetchReviews(for: takeout)
     }
-
 }

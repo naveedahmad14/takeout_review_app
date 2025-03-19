@@ -18,6 +18,10 @@ class HomeViewModel: ObservableObject {
 
     private let context = PersistenceController.shared.context
 
+    init () {
+        fetchTakeouts()
+    }
+
     func fetchTakeouts() {
         let request: NSFetchRequest<TakeoutEntity> = TakeoutEntity.fetchRequest()
         request.predicate = NSPredicate(format: "office == %@", selectedOffice)

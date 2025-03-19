@@ -2,7 +2,7 @@
 //  ReviewEntity+CoreDataProperties.swift
 //  govuk_review_app
 //
-//  Created by Syed.Ahmad on 12/02/2025.
+//  Created by Syed.Ahmad on 19/03/2025.
 //
 //
 
@@ -20,6 +20,7 @@ extension ReviewEntity {
     @NSManaged public var rating: Double
     @NSManaged public var reviewDescription: String?
     @NSManaged public var reviewerName: String?
+    @NSManaged public var takeoutId: String?
     @NSManaged public var takeout: TakeoutEntity?
 
 }

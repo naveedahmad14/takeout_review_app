@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import GoogleMaps
 
 @main
 struct govuk_review_appApp: App {
@@ -13,6 +14,7 @@ struct govuk_review_appApp: App {
 
     init() {
             persistenceController.addMockData() // Add mock data when app launches
+            GMSServices.provideAPIKey("AIzaSyCPFVh0MSe34q0IVlIbP9mMEvX2AY5raHU")
         }
     
     var body: some Scene {
