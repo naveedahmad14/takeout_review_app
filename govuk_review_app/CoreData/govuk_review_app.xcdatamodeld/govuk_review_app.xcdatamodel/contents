@@ -5,12 +5,13 @@
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="reviewDescription" optional="YES" attributeType="String"/>
         <attribute name="reviewerName" optional="YES" attributeType="String"/>
+        <attribute name="takeoutId" optional="YES" attributeType="String"/>
         <relationship name="takeout" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TakeoutEntity"/>
     </entity>
     <entity name="TakeoutEntity" representedClassName=".TakeoutEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="images" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="imagesURL" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="latitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="office" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = B029E4CE2D830D1E0066CE41 /* GoogleMaps */; };
+		B0ABF8C72D8AE61000081FA1 /* TakeoutEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0ABF8C62D8AE61000081FA1 /* TakeoutEntity+CoreDataProperties.swift */; };
+		B0ABF8C82D8AE61000081FA1 /* TakeoutEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0ABF8C52D8AE61000081FA1 /* TakeoutEntity+CoreDataClass.swift */; };
+		B0ABF8CF2D8AE86E00081FA1 /* ReviewEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0ABF8CE2D8AE86E00081FA1 /* ReviewEntity+CoreDataProperties.swift */; };
+		B0ABF8D02D8AE86E00081FA1 /* ReviewEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0ABF8CD2D8AE86E00081FA1 /* ReviewEntity+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +35,10 @@
 		B09963182D38125800F42ACD /* govuk_review_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = govuk_review_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B099632D2D38125B00F42ACD /* govuk_review_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = govuk_review_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B09963372D38125B00F42ACD /* govuk_review_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = govuk_review_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0ABF8C52D8AE61000081FA1 /* TakeoutEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TakeoutEntity+CoreDataClass.swift"; path = "govuk_review_app/CoreData/TakeoutEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B0ABF8C62D8AE61000081FA1 /* TakeoutEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TakeoutEntity+CoreDataProperties.swift"; path = "govuk_review_app/CoreData/TakeoutEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B0ABF8CD2D8AE86E00081FA1 /* ReviewEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ReviewEntity+CoreDataClass.swift"; path = "govuk_review_app/CoreData/ReviewEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B0ABF8CE2D8AE86E00081FA1 /* ReviewEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ReviewEntity+CoreDataProperties.swift"; path = "govuk_review_app/CoreData/ReviewEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -80,6 +88,10 @@
 		B099630F2D38125800F42ACD = {
 			isa = PBXGroup;
 			children = (
+				B0ABF8CD2D8AE86E00081FA1 /* ReviewEntity+CoreDataClass.swift */,
+				B0ABF8CE2D8AE86E00081FA1 /* ReviewEntity+CoreDataProperties.swift */,
+				B0ABF8C52D8AE61000081FA1 /* TakeoutEntity+CoreDataClass.swift */,
+				B0ABF8C62D8AE61000081FA1 /* TakeoutEntity+CoreDataProperties.swift */,
 				B099631A2D38125800F42ACD /* govuk_review_app */,
 				B09963302D38125B00F42ACD /* govuk_review_appTests */,
 				B099633A2D38125B00F42ACD /* govuk_review_appUITests */,
@@ -245,6 +257,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0ABF8CF2D8AE86E00081FA1 /* ReviewEntity+CoreDataProperties.swift in Sources */,
+				B0ABF8D02D8AE86E00081FA1 /* ReviewEntity+CoreDataClass.swift in Sources */,
+				B0ABF8C72D8AE61000081FA1 /* TakeoutEntity+CoreDataProperties.swift in Sources */,
+				B0ABF8C82D8AE61000081FA1 /* TakeoutEntity+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
