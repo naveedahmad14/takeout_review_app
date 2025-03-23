@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleMaps
 
 struct MapView: UIViewRepresentable {
-    var takeouts: [TakeoutEntity]
+    var takeouts: [Takeout]
 
     func makeUIView(context: Context) -> GMSMapView {
         let camera = GMSCameraPosition.camera(withLatitude: 53.4832662, longitude: -2.2414207, zoom: 12)

@@ -11,7 +11,7 @@ struct AddReviewScreen: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) private var dismiss // To close the screen after submitting
 
-    var takeout: TakeoutEntity // The takeout being reviewed
+    var takeout: Takeout // The takeout being reviewed
 
     @State private var reviewerName: String = ""
     @State private var reviewText: String = ""
@@ -85,15 +85,12 @@ struct AddReviewScreen: View {
     // Using a singleton ensures that all database operations use the same managed object context,
     // preventing redundant instances and maintaining data consistency throughout the app.
     private func submitReview() {
-        let persistenceController = PersistenceController.shared
-        // Add the review to Core Data
-        persistenceController.addReview(
-            to: takeout,
-            reviewerName: reviewerName.isEmpty ? "Anonymous" : reviewerName,
+        PersistenceController.shared.addReview(
+            for: takeout,
+            reviewerName: reviewerName,
             rating: rating,
             description: reviewText
         )
-        // close addReview screen
-        dismiss()
+        dismiss() // Close the AddReviewScreen after submission
     }
 }

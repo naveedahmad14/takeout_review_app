@@ -55,7 +55,8 @@ struct HomeScreen: View {
                     if !takeout.localImageNames.filter({ UIImage(named: $0) != nil }).isEmpty {
                         imageGallery(for: takeout)
                     }
-                    Text(takeout.name ?? "")
+                    //Text(takeout.name ?? "")
+                    Text(takeout.name)
                         .font(.headline)
                     Text("⭐ \(String(format: "%.1f", takeout.rating))")
                         .font(.subheadline)
@@ -71,7 +72,7 @@ struct HomeScreen: View {
     }
 
     // MARK: - Image Gallery
-    private func imageGallery(for takeout: TakeoutEntity) -> some View {
+    private func imageGallery(for takeout: Takeout) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
                 ForEach(takeout.localImageNames, id: \ .self) { imageName in
@@ -104,19 +105,19 @@ struct HomeScreen: View {
     }
 
     // MARK: - Delete Data Button
-        private var deleteTakeouts: some View {
-            Button(action: {
-                PersistenceController.shared.deleteAllData()
-                viewModel.fetchTakeouts()
-            }) {
-                Text("Delete Mock Data")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
-            }
-        }
+//        private var deleteTakeouts: some View {
+//            Button(action: {
+//                PersistenceController.shared.deleteAllReviews()
+//                viewModel.fetchTakeouts()
+//            }) {
+//                Text("Delete Mock Data")
+//                    .font(.headline)
+//                    .foregroundColor(.white)
+//                    .padding()
+//                    .background(Color.red)
+//                    .cornerRadius(10)
+//            }
+//        }
 
     // MARK: - Map/List Button
     private var menuButton: some View {

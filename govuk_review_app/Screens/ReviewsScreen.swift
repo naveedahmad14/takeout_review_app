@@ -9,14 +9,15 @@ import Foundation
 import SwiftUI
 
 struct ReviewsScreen: View {
-    let takeout: TakeoutEntity
+    let takeout: Takeout
     @State private var reviews: [ReviewEntity] = []
     @State private var isAddingReview = false
 
     // MARK: - Views
     private var takeoutHeader: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(takeout.name ?? "Takeout")
+            Text(takeout.name)
+            //Text(takeout.name ?? "Takeout")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top)
