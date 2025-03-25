@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  govuk_review_app
+//
+//  Created by Syed.Ahmad on 24/03/2025.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+GOOGLE_MAPS_API_KEY = AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4

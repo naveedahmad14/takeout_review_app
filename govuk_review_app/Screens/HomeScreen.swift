@@ -66,7 +66,6 @@ struct HomeScreen: View {
                 }
                 .padding(.vertical, 5)
             }
-//                        Link("Visit Pizza Place",destination: URL(string: "https://www.google.com/maps/dir//Manchester+Arndale,+Manchester+M4+3AQ/@53.4832379,-2.3238208,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x487bb1e85e87a4b3:0xb79765e7fa4a995f!2m2!1d-2.2414207!2d53.4832662?entry=ttu&g_ep=EgoyMDI1MDMwMi4wIKXMDSoASAFQAw%3D%3D")!)
         }
         .listStyle(PlainListStyle())
     }
@@ -121,19 +120,6 @@ struct HomeScreen: View {
 
     // MARK: - Map/List Button
     private var menuButton: some View {
-//        Menu {
-//            Button(action: { showMapView = false }) {
-//                Label("List View", systemImage: "list.bullet")
-//            }
-//            Button(action: { showMapView = true }) {
-//                Label("Map View", systemImage: "map")
-//            }
-//        } label: {
-//            Image(systemName: "ellipsis.circle")
-//                .font(.title)
-//                .foregroundColor(.black)
-//        }
-
         Picker("", selection: $showMapView) {
             Text("List").tag(false)
             Text("Map").tag(true)

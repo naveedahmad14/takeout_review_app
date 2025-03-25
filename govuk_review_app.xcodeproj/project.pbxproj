@@ -280,6 +280,8 @@
 /* Begin XCBuildConfiguration section */
 		B099633F2D38125B00F42ACD /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B099631A2D38125800F42ACD /* govuk_review_app */;
+			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -343,6 +345,8 @@
 		};
 		B09963402D38125B00F42ACD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = B099631A2D38125800F42ACD /* govuk_review_app */;
+			baseConfigurationReferenceRelativePath = Resources/Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
