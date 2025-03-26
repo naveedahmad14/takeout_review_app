@@ -141,6 +141,26 @@ struct HomeScreen: View {
         .frame(width: 120) // Adjust width as needed
     }
 
+    // MARK: - AI Chat button
+    private var AIButton: some View {
+        HStack {
+            Spacer() // Pushes button to center
+            NavigationLink(destination: AIChatScreen()) {
+                Text("Chat with AI")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 350) // Adjust width to maintain consistent size
+                    .background(Color.blue)
+                    .cornerRadius(10)
+            }
+            Spacer() // Pushes button to center
+        }
+        .padding(.bottom, 5) // Adjust padding to keep it at the same height
+    }
+
+
+
         // MARK: - Body
         var body: some View {
             NavigationView {
@@ -163,7 +183,7 @@ struct HomeScreen: View {
                         .padding(.leading, -15)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .frame(height: 600)
+                        .frame(height: 550)
                         .cornerRadius(5)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
@@ -171,6 +191,7 @@ struct HomeScreen: View {
                         )
                         Spacer()
                     }
+                    AIButton
                 }
                 .padding(20)
             }
