@@ -62,7 +62,8 @@ struct AIChatScreen: View {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let requestBody: [String: [String]] = ["preferences": [userInput]]
+        let input = userInput.components(separatedBy: .whitespacesAndNewlines).filter { !$0.isEmpty }
+        let requestBody: [String: [String]] = ["preferences": input]
         request.httpBody = try? JSONSerialization.data(withJSONObject: requestBody, options: [])
 
         URLSession.shared.dataTask(with: request) { data, response, error in
