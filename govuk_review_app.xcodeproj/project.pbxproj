@@ -10,6 +10,8 @@
 		B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = B029E4CE2D830D1E0066CE41 /* GoogleMaps */; };
 		B0B49EBE2D941D1700BB58CA /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBD2D941D1700BB58CA /* GooglePlaces */; };
 		B0B49EC02D941D1700BB58CA /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */; };
+		B0B49EE92D950C6000BB58CA /* TakeoutEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B49EE72D950C6000BB58CA /* TakeoutEntity+CoreDataClass.swift */; };
+		B0B49EEA2D950C6000BB58CA /* TakeoutEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B49EE82D950C6000BB58CA /* TakeoutEntity+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +35,8 @@
 		B09963182D38125800F42ACD /* govuk_review_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = govuk_review_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B099632D2D38125B00F42ACD /* govuk_review_appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = govuk_review_appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B09963372D38125B00F42ACD /* govuk_review_appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = govuk_review_appUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0B49EE72D950C6000BB58CA /* TakeoutEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TakeoutEntity+CoreDataClass.swift"; path = "govuk_review_app/CoreData/TakeoutEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B0B49EE82D950C6000BB58CA /* TakeoutEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TakeoutEntity+CoreDataProperties.swift"; path = "govuk_review_app/CoreData/TakeoutEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -84,6 +88,8 @@
 		B099630F2D38125800F42ACD = {
 			isa = PBXGroup;
 			children = (
+				B0B49EE72D950C6000BB58CA /* TakeoutEntity+CoreDataClass.swift */,
+				B0B49EE82D950C6000BB58CA /* TakeoutEntity+CoreDataProperties.swift */,
 				B099631A2D38125800F42ACD /* govuk_review_app */,
 				B09963302D38125B00F42ACD /* govuk_review_appTests */,
 				B099633A2D38125B00F42ACD /* govuk_review_appUITests */,
@@ -252,6 +258,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0B49EE92D950C6000BB58CA /* TakeoutEntity+CoreDataClass.swift in Sources */,
+				B0B49EEA2D950C6000BB58CA /* TakeoutEntity+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

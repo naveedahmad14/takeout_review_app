@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-extension TakeoutEntity {
+extension TakeoutEntity: Identifiable {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TakeoutEntity> {
         return NSFetchRequest<TakeoutEntity>(entityName: "TakeoutEntity")
@@ -23,8 +23,7 @@ extension TakeoutEntity {
     @NSManaged public var office: String?
     @NSManaged public var rating: Double
     @NSManaged public var tagline: String?
-    @NSManaged public var photoReferences: [String]?
-    @NSManaged public var photoURLs: [String]?
+    @NSManaged public var imageDataTransformable: Data?
     @NSManaged public var reviews: NSSet?
 
 }
@@ -46,23 +45,27 @@ extension TakeoutEntity {
 
 }
 
-extension TakeoutEntity : Identifiable {
-
-}
-
 extension TakeoutEntity {
-    var localImageNames: [String] {
-        guard let name = name else { return ["default_image"] }
-        let baseName = name.replacingOccurrences(of: " ", with: "_").lowercased()
-
-        // Assuming you have multiple images indexed like name_1, name_2, etc.
-        return (1...3).map { "\(baseName)_\($0)" }  // Adjust the range as needed
+    var imageDataArray: [Data] {
+        get {
+            guard let data = imageDataTransformable else { return [] }
+            do {
+                // Use Codable approach instead of NSKeyedUnarchiver
+                return try JSONDecoder().decode([Data].self, from: data)
+            } catch {
+                print("Error decoding image data: \(error)")
+                return []
+            }
+        }
+        set {
+            do {
+                // Use Codable approach for encoding
+                let encodedData = try JSONEncoder().encode(newValue)
+                imageDataTransformable = encodedData
+            } catch {
+                print("Error encoding image data: \(error)")
+                imageDataTransformable = nil
+            }
+        }
     }
-
-    /*
-    // API Image Support (Commented Out for Later)
-    var imageUrlsArray: [String] {
-        (images as? [String]) ?? []
-    }
-    */
 }

@@ -10,12 +10,12 @@
     </entity>
     <entity name="TakeoutEntity" representedClassName=".TakeoutEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="imageDataArray" optional="YES" attributeType="Transformable"/>
+        <attribute name="imageDataTransformable" optional="YES" attributeType="Transformable"/>
         <attribute name="latitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="office" optional="YES" attributeType="String"/>
-        <attribute name="photoReferences" optional="YES" attributeType="Transformable"/>
-        <attribute name="photoURLs" optional="YES" attributeType="Transformable"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="tagline" optional="YES" attributeType="String"/>
         <relationship name="reviews" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReviewEntity"/>

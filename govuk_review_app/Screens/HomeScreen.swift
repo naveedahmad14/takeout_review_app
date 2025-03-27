@@ -52,7 +52,7 @@ struct HomeScreen: View {
         List(viewModel.filteredTakeouts) { takeout in
             NavigationLink(destination: ReviewsScreen(takeout: takeout)) {
                 VStack(alignment: .leading) {
-                    if !takeout.localImageNames.filter({ UIImage(named: $0) != nil }).isEmpty {
+                    if !takeout.imageDataArray.isEmpty {
                         imageGallery(for: takeout)
                     }
                     Text(takeout.name ?? "")
@@ -65,7 +65,6 @@ struct HomeScreen: View {
                 }
                 .padding(.vertical, 5)
             }
-//                        Link("Visit Pizza Place",destination: URL(string: "https://www.google.com/maps/dir//Manchester+Arndale,+Manchester+M4+3AQ/@53.4832379,-2.3238208,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x487bb1e85e87a4b3:0xb79765e7fa4a995f!2m2!1d-2.2414207!2d53.4832662?entry=ttu&g_ep=EgoyMDI1MDMwMi4wIKXMDSoASAFQAw%3D%3D")!)
         }
         .listStyle(PlainListStyle())
     }
@@ -74,32 +73,32 @@ struct HomeScreen: View {
     private func imageGallery(for takeout: TakeoutEntity) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
-                ForEach(takeout.localImageNames, id: \ .self) { imageName in
-                    Image(imageName)
+                ForEach(takeout.imageDataArray.compactMap {
+                    print("🖼️ Image loaded for \(takeout.name ?? "Unknown")")
+                    return UIImage(data: $0)
+                }, id: \.self) { uiImage in
+                    Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 150, height: 100)
                         .clipped()
                         .cornerRadius(10)
-                    /*
-                    // API Image Loading (Commented Out for Now)
-                    if !takeout.imageUrlsArray.isEmpty {
-                        ForEach(takeout.imageUrlsArray, id: \.self) { imageURL in
-                            AsyncImage(url: URL(string: imageURL)) { image in
-                                image.resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 100)
-                                    .clipped()
-                                    .cornerRadius(10)
-                            } placeholder: {
-                                ProgressView()
-                            }
-                        }
-                    }
-                    */
                 }
             }
             .padding(.vertical, 5)
+        }
+    }
+
+    func debugCoreData() {
+        let fetchRequest: NSFetchRequest<TakeoutEntity> = TakeoutEntity.fetchRequest()
+
+        do {
+            let results = try PersistenceController.shared.context.fetch(fetchRequest)
+            for takeout in results {
+                print("🍔 Takeout: \(takeout.name ?? "Unknown") - Images: \(takeout.imageDataArray.count)")
+            }
+        } catch {
+            print("❌ Failed to fetch takeouts: \(error)")
         }
     }
 
@@ -117,6 +116,7 @@ struct HomeScreen: View {
                     .cornerRadius(10)
             }
         }
+
 
     // MARK: - Map/List Button
     private var menuButton: some View {
@@ -179,7 +179,9 @@ struct HomeScreen: View {
                             //deleteTakeouts
                             Spacer()
                         }
-                        .onAppear { viewModel.fetchTakeouts() }
+                        .onAppear { viewModel.fetchTakeouts()
+                            debugCoreData()
+}
                         .padding(.leading, -15)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
