@@ -268,6 +268,8 @@ struct PersistenceController {
         takeoutEntity.name = newTakeout.name
         takeoutEntity.rating = Double(newTakeout.rating ?? 0.0)
         takeoutEntity.tagline = newTakeout.formattedAddress ?? "No address"
+        takeoutEntity.latitude = newTakeout.coordinate.latitude
+        takeoutEntity.longitude = newTakeout.coordinate.longitude
         takeoutEntity.office = office
 
         // Directly assign the image data array

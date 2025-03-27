@@ -12,8 +12,8 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="imageDataArray" optional="YES" attributeType="Transformable"/>
         <attribute name="imageDataTransformable" optional="YES" attributeType="Transformable"/>
-        <attribute name="latitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
-        <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="office" optional="YES" attributeType="String"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>

@@ -170,7 +170,7 @@ struct HomeScreen: View {
                         VStack(alignment: .leading, spacing: -8) {
                             officePicker
                             if showMapView {
-                                MapView(takeouts: viewModel.filteredTakeouts)
+                                MapView(takeouts: viewModel.filteredTakeouts, selectedOffice: viewModel.selectedOffice)
                                     .frame(height: 400)
                                     .cornerRadius(10)
                             } else {

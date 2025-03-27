@@ -17,13 +17,13 @@ extension TakeoutEntity: Identifiable {
     }
 
     @NSManaged public var id: UUID?
-    @NSManaged public var latitude: NSDecimalNumber?
-    @NSManaged public var longitude: NSDecimalNumber?
+    @NSManaged public var imageDataTransformable: Data?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
     @NSManaged public var name: String?
     @NSManaged public var office: String?
     @NSManaged public var rating: Double
     @NSManaged public var tagline: String?
-    @NSManaged public var imageDataTransformable: Data?
     @NSManaged public var reviews: NSSet?
 
 }
