@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23507" systemVersion="24D70" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23507" systemVersion="24D81" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ReviewEntity" representedClassName=".ReviewEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -14,6 +14,8 @@
         <attribute name="longitude" optional="YES" attributeType="Decimal" defaultValueString="0.0"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="office" optional="YES" attributeType="String"/>
+        <attribute name="photoReferences" optional="YES" attributeType="Transformable"/>
+        <attribute name="photoURLs" optional="YES" attributeType="Transformable"/>
         <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="tagline" optional="YES" attributeType="String"/>
         <relationship name="reviews" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReviewEntity"/>

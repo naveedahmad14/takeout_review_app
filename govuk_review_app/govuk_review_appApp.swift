@@ -7,14 +7,16 @@
 
 import SwiftUI
 import GoogleMaps
+import GooglePlaces
 
 @main
 struct govuk_review_appApp: App {
     let persistenceController = PersistenceController.shared
 
     init() {
-            persistenceController.addMockData() // Add mock data when app launches
-            GMSServices.provideAPIKey("AIzaSyCPFVh0MSe34q0IVlIbP9mMEvX2AY5raHU")
+            GMSServices.provideAPIKey("AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4")
+            GMSPlacesClient.provideAPIKey("AIzaSyAKWNWlKobef5VQKTApBeirRY2pLirGqjU")
+            persistenceController.addData() // Add mock data when app launches
         }
     
     var body: some Scene {

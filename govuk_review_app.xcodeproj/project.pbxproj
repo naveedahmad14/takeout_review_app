@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = B029E4CE2D830D1E0066CE41 /* GoogleMaps */; };
+		B0B49EBE2D941D1700BB58CA /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBD2D941D1700BB58CA /* GooglePlaces */; };
+		B0B49EC02D941D1700BB58CA /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */,
+				B0B49EBE2D941D1700BB58CA /* GooglePlaces in Frameworks */,
+				B0B49EC02D941D1700BB58CA /* GooglePlacesSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +122,8 @@
 			name = govuk_review_app;
 			packageProductDependencies = (
 				B029E4CE2D830D1E0066CE41 /* GoogleMaps */,
+				B0B49EBD2D941D1700BB58CA /* GooglePlaces */,
+				B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */,
 			);
 			productName = govuk_review_app;
 			productReference = B09963182D38125800F42ACD /* govuk_review_app.app */;
@@ -203,6 +209,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
+				B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B09963192D38125800F42ACD /* Products */;
@@ -407,6 +414,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"govuk_review_app/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -435,6 +445,9 @@
 				DEVELOPMENT_ASSET_PATHS = "\"govuk_review_app/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -571,6 +584,14 @@
 				minimumVersion = 9.3.0;
 			};
 		};
+		B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googlemaps/ios-places-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -578,6 +599,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;
 			productName = GoogleMaps;
+		};
+		B0B49EBD2D941D1700BB58CA /* GooglePlaces */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlaces;
+		};
+		B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
+			productName = GooglePlacesSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

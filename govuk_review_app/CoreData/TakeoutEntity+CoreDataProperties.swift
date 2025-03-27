@@ -2,7 +2,7 @@
 //  TakeoutEntity+CoreDataProperties.swift
 //  govuk_review_app
 //
-//  Created by Syed.Ahmad on 19/03/2025.
+//  Created by Syed.Ahmad on 27/03/2025.
 //
 //
 
@@ -23,6 +23,8 @@ extension TakeoutEntity {
     @NSManaged public var office: String?
     @NSManaged public var rating: Double
     @NSManaged public var tagline: String?
+    @NSManaged public var photoReferences: [String]?
+    @NSManaged public var photoURLs: [String]?
     @NSManaged public var reviews: NSSet?
 
 }
