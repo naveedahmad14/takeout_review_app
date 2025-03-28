@@ -34,5 +34,5 @@ A mobile iOS app that helps GOV.UK employees discover and review nearby food est
 git clone https://github.com/your-username/takeout_review_app.git
 cd takeout_review_app
 # Add API keys
-open GovEats.xcworkspace
+open govuk_review_app.xcworkspace
 ```
