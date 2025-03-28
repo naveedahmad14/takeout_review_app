@@ -26,16 +26,13 @@ A mobile iOS app that helps GOV.UK employees discover and review nearby food est
 
 ## Setup Instructions
 1. Clone repository
-2. Install dependencies
-3. Add API keys to `Config.swift`
-4. Run in Xcode
+2. Add API keys to `Config.swift`
+3. Run in Xcode
 
 ## Quick Start
 ```bash
-git clone https://github.com/your-username/GovEats.git
-cd GovEats
-pod install
+git clone https://github.com/your-username/takeout_review_app.git
+cd takeout_review_app
 # Add API keys
-xcode-select --install
 open GovEats.xcworkspace
 ```
