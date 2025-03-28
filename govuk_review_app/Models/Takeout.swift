@@ -13,7 +13,5 @@ struct Takeout: Identifiable {
     let rating: Double
     let tagline: String
     let office: String
-    let photoReferences: [String]?
-    let photoURLs: [String]?
     let reviews: [Review]
 }
