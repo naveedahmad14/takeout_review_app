@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import GooglePlaces
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -54,11 +55,241 @@ struct PersistenceController {
         }
     }
 
-    func addMockData() {
-        let context = self.context
+    struct NewTakeout {
+        let name: String
+        let rating: Double
+        let tagline: String
+        let office: String
+        //let photoURLs: [String]?
+    }
 
-        // Check if data already exists to avoid duplication
+    // Helper function to calculate the distance between two coordinates
+    func distanceBetweenCoordinates(from start: CLLocationCoordinate2D, to end: CLLocationCoordinate2D) -> CLLocationDistance {
+        let startLocation = CLLocation(latitude: start.latitude, longitude: start.longitude)
+        let endLocation = CLLocation(latitude: end.latitude, longitude: end.longitude)
+        return startLocation.distance(from: endLocation)
+    }
+
+    struct OfficeLocation {
+        let name: String
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+    }
+
+    let offices = [
+        OfficeLocation(name: "Manchester", latitude: 53.478221, longitude: -2.242756),
+        OfficeLocation(name: "Bristol", latitude: 51.454514, longitude: -2.587910),
+        OfficeLocation(name: "London", latitude: 51.514466679975286, longitude: -0.07289043154882537)
+    ]
+
+    func addData() {
+        for office in offices {
+            fetchNearbyTakeouts(name: office.name,  latitude: office.latitude, longitude: office.longitude)
+        }
+    }
+
+    func fetchNearbyTakeouts(name: String, latitude: Double, longitude: Double) {
+        let placesClient = GMSPlacesClient.shared()
+
+        // Create the search area with a 1000-meter radius
+        let searchLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let radiusInMeters: CLLocationDistance = 1000 // Search within 500 meters
+
+        // Define the place types you are interested in (e.g., restaurants and cafes)
+        let includedTypes = [
+          "fast_food_restaurant",
+          "meal_takeaway",
+          "meal_delivery",
+          "restaurant",
+          "diner",
+          "sandwich_shop",
+          "hamburger_restaurant",
+          "pizza_restaurant",
+          "deli",
+          "bagel_shop",
+          "brunch_restaurant",
+          "breakfast_restaurant",
+          "cafe",
+          "coffee_shop",
+          "juice_shop",
+          "tea_house",
+          "vegan_restaurant",
+          "vegetarian_restaurant"
+        ];
+        let excludedTypes = [
+          "fine_dining_restaurant",
+          "bar_and_grill",
+          "steak_house",
+          "wine_bar",
+          "bar",
+          "pub",
+          "night_club",
+          "grocery_store",
+          "shopping_mall",
+          "store",
+          "hotel",
+          "buffet_restaurant",
+          "banquet_hall",
+          "food_court"
+        ];
+
+        // Set up the GMSPlaceSearchNearbyRequest
+        var request = GMSPlaceSearchNearbyRequest(
+            locationRestriction: GMSPlaceCircularLocationOption(searchLocation, radiusInMeters),
+            placeProperties: [GMSPlaceProperty.placeID, GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating].map { $0.rawValue })
+        request.includedTypes = includedTypes
+        request.excludedTypes = excludedTypes
+
+        // Define the callback to handle the search results
+        let callback: GMSPlaceSearchNearbyResultCallback = { results, error in
+            guard error == nil else {
+                print("❌ Error fetching places: \(error!.localizedDescription)")
+                return
+            }
+
+            guard let places = results as? [GMSPlace] else {
+                print("⚠️ No places found.")
+                return
+            }
+
+            let filteredPlaces = places.filter { place in
+                guard let types = place.types else { return true } // Keep it if no types are defined
+                return !types.contains("lodging") && !types.contains("hotel")
+            }
+
+            // Sort the places by distance from the office
+            let sortedPlaces = filteredPlaces.sorted { (place1, place2) -> Bool in
+                let distance1 = self.distanceBetweenCoordinates(from: searchLocation, to: place1.coordinate)
+                let distance2 = self.distanceBetweenCoordinates(from: searchLocation, to: place2.coordinate)
+                return distance1 < distance2 // Sort by closest to furthest
+            }
+
+            // Limit to top 15 places
+            let takeouts = sortedPlaces.prefix(15).map { place -> NewTakeout in
+                return NewTakeout(
+                    name: place.name ?? "Unknown",
+                    rating: Double(place.rating ?? 0.0),
+                    tagline: place.formattedAddress ?? "No address",
+                    office: name // Hardcoding the office location
+                    //photoURLs: photoMetadata // Store photo metadata references
+                )
+            }
+
+            var placeResults: [GMSPlace] = []
+            placeResults = places
+
+            for place in places {
+                self.fetchPlacePhotos(for: place, officeName: name)
+            }
+
+
+            DispatchQueue.main.async {
+                for place in places {
+                    self.fetchPlacePhotos(for: place, officeName: name)
+                }
+                print("✅ Fetched and stored \(takeouts.count) takeouts")
+            }
+        }
+        // Perform the search
+        GMSPlacesClient.shared().searchNearby(with: request, callback: callback)
+    }
+
+    func fetchPlacePhotos(for place: GMSPlace, officeName: String) {
+        guard let placeID = place.placeID else {
+            print("❌ No Place ID for \(place.name ?? "Unknown Place")")
+            DispatchQueue.main.async {
+                self.addTakeout(newTakeout: place, office: officeName, imageDataArray: [])
+            }
+            return
+        }
+
+        let placesClient = GMSPlacesClient.shared()
+
+        // Properly specify photo fields
+        var fields = GMSPlaceField()
+        fields.insert(.photos)
+
+        // Create a cancellation flag
+        var isCancelled = false
+
+        // Add a timeout mechanism
+        let timeoutWorkItem = DispatchWorkItem { [self] in
+            guard !isCancelled else { return }
+            print("⏰ Photo fetch timed out for \(place.name ?? "Unknown Place")")
+            DispatchQueue.main.async {
+                self.addTakeout(newTakeout: place, office: officeName, imageDataArray: [])
+            }
+        }
+
+        // Schedule the timeout
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: timeoutWorkItem)
+
+        // Fetch place with specific fields
+        placesClient.fetchPlace(
+            fromPlaceID: placeID,
+            placeFields: fields,
+            sessionToken: nil
+        ) { (fetchedPlace: GMSPlace?, error: Error?) in
+            // Mark as completed to prevent timeout action
+            isCancelled = true
+            timeoutWorkItem.cancel()
+
+            // Error handling
+            if let error = error {
+                print("❌ Error fetching place details: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    self.addTakeout(newTakeout: place, office: officeName, imageDataArray: [])
+                }
+                return
+            }
+
+            // Check if place has photos
+            guard let fetchedPlace = fetchedPlace,
+                  let photos = fetchedPlace.photos,
+                  !photos.isEmpty else {
+                print("⚠️ No photos found for \(place.name ?? "Unknown Place")")
+                DispatchQueue.main.async {
+                    self.addTakeout(newTakeout: place, office: officeName, imageDataArray: [])
+                }
+                return
+            }
+
+            // Limit to first 3 photos
+            let photosToFetch = Array(photos.prefix(3))
+            var imageDataArray: [Data] = []
+
+            let dispatchGroup = DispatchGroup()
+
+            for photoMetadata in photosToFetch {
+                dispatchGroup.enter()
+
+                placesClient.loadPlacePhoto(photoMetadata) { (photo, error) in
+                    defer { dispatchGroup.leave() }
+
+                    if let error = error {
+                        print("❌ Error loading photo: \(error.localizedDescription)")
+                        return
+                    }
+
+                    if let photo = photo,
+                       let imageData = photo.jpegData(compressionQuality: 0.8) {
+                        print("✅ Successfully fetched photo for \(place.name ?? "Unknown Place")")
+                        imageDataArray.append(imageData)
+                    }
+                }
+            }
+
+            dispatchGroup.notify(queue: .main) {
+                print("📸 Total images fetched for \(place.name ?? "Unknown Place"): \(imageDataArray.count)")
+                self.addTakeout(newTakeout: place, office: officeName, imageDataArray: imageDataArray)
+            }
+        }
+    }
+
+    func addTakeout(newTakeout: GMSPlace, office: String, imageDataArray: [Data]) {
         let fetchRequest: NSFetchRequest<TakeoutEntity> = TakeoutEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@ AND office == %@", newTakeout.name ?? "", office)
+
         do {
             let existingData = try context.fetch(fetchRequest)
             if !existingData.isEmpty { return } // Skip if data exists
@@ -66,53 +297,20 @@ struct PersistenceController {
             print("Error checking existing data: \(error)")
         }
 
-        // Create mock takeouts
-        let takeout1 = TakeoutEntity(context: context)
-        takeout1.id = UUID()
-        takeout1.name = "Pizza Palace"
-        takeout1.rating = 4.5
-        takeout1.tagline = "Best pizza in town!"
-        takeout1.office = "Manchester"
+        let takeoutEntity = TakeoutEntity(context: context)
+        takeoutEntity.id = UUID()
+        takeoutEntity.name = newTakeout.name
+        takeoutEntity.rating = Double(newTakeout.rating ?? 0.0)
+        takeoutEntity.tagline = newTakeout.formattedAddress ?? "No address"
+        takeoutEntity.latitude = newTakeout.coordinate.latitude
+        takeoutEntity.longitude = newTakeout.coordinate.longitude
+        takeoutEntity.office = office
 
-        let takeout2 = TakeoutEntity(context: context)
-        takeout2.id = UUID()
-        takeout2.name = "Sushi Spot"
-        takeout2.rating = 4.2
-        takeout2.tagline = "Fresh sushi and sashimi"
-        takeout2.office = "London"
+        // Directly assign the image data array
+        takeoutEntity.imageDataArray = imageDataArray
+        print("✅ Saving \(imageDataArray.count) images for \(newTakeout.name ?? "Unknown Place")")
 
-        let takeout3 = TakeoutEntity(context: context)
-        takeout3.id = UUID()
-        takeout3.name = "Burger Haven"
-        takeout3.rating = 4.8
-        takeout3.tagline = "Juicy burgers and crispy fries!"
-        takeout3.office = "Bristol"
-
-        // Create mock reviews
-        let review1 = ReviewEntity(context: context)
-        review1.id = UUID()
-        review1.reviewerName = "Alice"
-        review1.rating = 5.0
-        review1.reviewDescription = "Amazing pizza! Will definitely come back."
-        review1.takeout = takeout1
-
-        let review2 = ReviewEntity(context: context)
-        review2.id = UUID()
-        review2.reviewerName = "Bob"
-        review2.rating = 3.5
-        review2.reviewDescription = "Good sushi but a bit expensive."
-        review2.takeout = takeout2
-
-        let review3 = ReviewEntity(context: context)
-        review3.id = UUID()
-        review3.reviewerName = "Charlie"
-        review3.rating = 4.8
-        review3.reviewDescription = "Best burger I’ve ever had!"
-        review3.takeout = takeout3
-
-        // Save context
         saveContext()
-        print("Mock data added successfully!")
     }
 
     func deleteAllData() {
