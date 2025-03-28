@@ -16,7 +16,7 @@ struct MapView: UIViewRepresentable {
     private let officeLocations: [String: (latitude: Double, longitude: Double, zoom: Float)] = [
         "London": (51.514466679975286, -0.07289043154882537, 14.25),
         "Manchester": (53.478221, -2.242756, 14),
-        "Bristol": (51.454514, -2.587910, 14)
+        "Bristol": (51.45144871492796, -2.5787365711638883, 14)
     ]
 
     func makeUIView(context: Context) -> GMSMapView {

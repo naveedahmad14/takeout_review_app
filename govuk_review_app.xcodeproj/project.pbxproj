@@ -41,16 +41,6 @@
 			path = govuk_review_app;
 			sourceTree = "<group>";
 		};
-		B09963302D38125B00F42ACD /* govuk_review_appTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = govuk_review_appTests;
-			sourceTree = "<group>";
-		};
-		B099633A2D38125B00F42ACD /* govuk_review_appUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = govuk_review_appUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,8 +75,6 @@
 			isa = PBXGroup;
 			children = (
 				B099631A2D38125800F42ACD /* govuk_review_app */,
-				B09963302D38125B00F42ACD /* govuk_review_appTests */,
-				B099633A2D38125B00F42ACD /* govuk_review_appUITests */,
 				B09963192D38125800F42ACD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -142,9 +130,6 @@
 			dependencies = (
 				B099632F2D38125B00F42ACD /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				B09963302D38125B00F42ACD /* govuk_review_appTests */,
-			);
 			name = govuk_review_appTests;
 			packageProductDependencies = (
 			);
@@ -164,9 +149,6 @@
 			);
 			dependencies = (
 				B09963392D38125B00F42ACD /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				B099633A2D38125B00F42ACD /* govuk_review_appUITests */,
 			);
 			name = govuk_review_appUITests;
 			packageProductDependencies = (

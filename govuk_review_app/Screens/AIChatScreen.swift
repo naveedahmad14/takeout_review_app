@@ -80,7 +80,7 @@ struct AIChatScreen: View {
 
                     let formattedResponse = recommendations.map { recommendation in
                         """
-                        **\(recommendation["name"] ?? "Unknown")**
+                        \(recommendation["name"] ?? "Unknown")
                         \(recommendation["short_description"] ?? "")
                         🔥 \(recommendation["highlight"] ?? "")
                         """

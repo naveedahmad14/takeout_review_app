@@ -146,7 +146,7 @@ struct HomeScreen: View {
         HStack {
             Spacer() // Pushes button to center
             NavigationLink(destination: AIChatScreen()) {
-                Text("Chat with AI")
+                Text("Chat for AI recommendations")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()

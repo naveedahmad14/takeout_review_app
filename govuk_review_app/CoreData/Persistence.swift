@@ -96,15 +96,49 @@ struct PersistenceController {
         let radiusInMeters: CLLocationDistance = 1000 // Search within 500 meters
 
         // Define the place types you are interested in (e.g., restaurants and cafes)
-        let includedTypes = ["meal_takeaway", "fast_food_restaurant", "cafe"]
-        let exludedTypes = ["hotel", "shopping_mall", "store"]
+        let includedTypes = [
+          "fast_food_restaurant",
+          "meal_takeaway",
+          "meal_delivery",
+          "restaurant",
+          "diner",
+          "sandwich_shop",
+          "hamburger_restaurant",
+          "pizza_restaurant",
+          "deli",
+          "bagel_shop",
+          "brunch_restaurant",
+          "breakfast_restaurant",
+          "cafe",
+          "coffee_shop",
+          "juice_shop",
+          "tea_house",
+          "vegan_restaurant",
+          "vegetarian_restaurant"
+        ];
+        let excludedTypes = [
+          "fine_dining_restaurant",
+          "bar_and_grill",
+          "steak_house",
+          "wine_bar",
+          "bar",
+          "pub",
+          "night_club",
+          "grocery_store",
+          "shopping_mall",
+          "store",
+          "hotel",
+          "buffet_restaurant",
+          "banquet_hall",
+          "food_court"
+        ];
 
         // Set up the GMSPlaceSearchNearbyRequest
         var request = GMSPlaceSearchNearbyRequest(
             locationRestriction: GMSPlaceCircularLocationOption(searchLocation, radiusInMeters),
             placeProperties: [GMSPlaceProperty.placeID, GMSPlaceProperty.name, GMSPlaceProperty.formattedAddress, GMSPlaceProperty.coordinate, GMSPlaceProperty.rating].map { $0.rawValue })
         request.includedTypes = includedTypes
-        request.excludedTypes = exludedTypes
+        request.excludedTypes = excludedTypes
 
         // Define the callback to handle the search results
         let callback: GMSPlaceSearchNearbyResultCallback = { results, error in
