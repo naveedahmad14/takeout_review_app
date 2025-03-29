@@ -14,8 +14,8 @@ struct govuk_review_appApp: App {
     let persistenceController: PersistenceController
 
     init() {
-        GMSServices.provideAPIKey("AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4")
-        GMSPlacesClient.provideAPIKey("AIzaSyAKWNWlKobef5VQKTApBeirRY2pLirGqjU")
+        GMSServices.provideAPIKey("YOUR_API_KEY")
+        GMSPlacesClient.provideAPIKey("YOUR_API_KEY")
 
         GooglePlacesService.shared.initialize()
 
