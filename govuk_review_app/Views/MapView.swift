@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleMaps
+import GooglePlaces
 
 struct MapView: UIViewRepresentable {
     var takeouts: [TakeoutEntity]
@@ -28,21 +29,7 @@ struct MapView: UIViewRepresentable {
         mapView.delegate = context.coordinator
 
         // Add markers for takeouts in the selected office
-        for takeout in takeouts {
-            // Skip takeouts with zero or invalid coordinates or not matching the office
-            guard takeout.latitude != 0 && takeout.longitude != 0,
-                  let name = takeout.name,
-                  takeout.office == selectedOffice else {
-                continue
-            }
-
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: takeout.latitude, longitude: takeout.longitude)
-            marker.title = name
-            marker.snippet = takeout.tagline
-            marker.userData = takeout // Store the entire takeout for later use
-            marker.map = mapView
-        }
+        addMarkers(to: mapView)
 
         return mapView
     }
@@ -59,6 +46,10 @@ struct MapView: UIViewRepresentable {
         uiView.clear()
 
         // Add markers for takeouts in the selected office
+        addMarkers(to: uiView)
+    }
+
+    private func addMarkers(to mapView: GMSMapView) {
         for takeout in takeouts {
             // Skip takeouts with zero or invalid coordinates or not matching the office
             guard takeout.latitude != 0 && takeout.longitude != 0,
@@ -72,7 +63,7 @@ struct MapView: UIViewRepresentable {
             marker.title = name
             marker.snippet = takeout.tagline
             marker.userData = takeout
-            marker.map = uiView
+            marker.map = mapView
         }
     }
 
@@ -85,51 +76,122 @@ struct MapView: UIViewRepresentable {
 
         init(_ parent: MapView) {
             self.parent = parent
+            super.init()
         }
 
-        func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-            // Check if the marker has associated takeout data
+        // Custom info window content
+        func mapView(_ mapView: GMSMapView, markerInfoContents marker: GMSMarker) -> UIView? {
             guard let takeout = marker.userData as? TakeoutEntity else {
-                return false
+                return nil
             }
 
-            // Show an alert with takeout details
-            let alertController = UIAlertController(
-                title: takeout.name,
-                message: """
-                Rating: \(String(format: "%.1f", takeout.rating)) ⭐
-                Address: \(takeout.tagline ?? "No address")
-                """,
-                preferredStyle: .actionSheet
-            )
+            // Create a container view
+            let infoWindow = UIView(frame: CGRect(x: 0, y: 0, width: 240, height: 120))
+            infoWindow.backgroundColor = UIColor.white
+            infoWindow.layer.cornerRadius = 8
+            infoWindow.clipsToBounds = true
 
-            // Add action to get directions
-            alertController.addAction(UIAlertAction(title: "Get Directions", style: .default) { _ in
-                // Open Google Maps with directions
-                if let name = takeout.name,
-                   let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                   let url = URL(string: "comgooglemaps://?daddr=\(encodedName)&directionsmode=driving") {
+            // Title label
+            let titleLabel = UILabel(frame: CGRect(x: 10, y: 5, width: 220, height: 22))
+            titleLabel.text = takeout.name
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
 
-                    // Check if Google Maps is installed
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    } else {
-                        // Fallback to Apple Maps if Google Maps is not installed
-                        let appleMapsURL = URL(string: "http://maps.apple.com/?daddr=\(encodedName)")!
-                        UIApplication.shared.open(appleMapsURL, options: [:], completionHandler: nil)
-                    }
-                }
-            })
+            // Address label
+            let addressLabel = UILabel(frame: CGRect(x: 10, y: 27, width: 220, height: 36))
+            addressLabel.text = takeout.tagline
+            addressLabel.font = UIFont.systemFont(ofSize: 12)
+            addressLabel.numberOfLines = 2
 
-            // Cancel action
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            // Rating label
+            let ratingLabel = UILabel(frame: CGRect(x: 10, y: 65, width: 220, height: 20))
+            ratingLabel.text = "Rating: \(String(format: "%.1f", takeout.rating)) ⭐"
+            ratingLabel.font = UIFont.systemFont(ofSize: 14)
 
-            // Present the alert
-            if let topController = UIApplication.shared.windows.first?.rootViewController {
-                topController.present(alertController, animated: true, completion: nil)
-            }
+            // Directions button
+            let buttonWidth: CGFloat = 140
+            let buttonHeight: CGFloat = 30
+            let buttonX = (infoWindow.frame.width - buttonWidth) / 2 // Centering calculation
+            let buttonY: CGFloat = 85
 
-            return true
+            // Directions button
+            let directionsButton = UIButton(frame: CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight))
+            directionsButton.setTitle("Get Directions", for: .normal)
+            directionsButton.backgroundColor = UIColor(red: 0, green: 122/255, blue: 255/255, alpha: 1.0)
+            directionsButton.layer.cornerRadius = 5
+            directionsButton.tag = 1 // Tag to identify this button in delegate
+            directionsButton.addTarget(self, action: #selector(self.handleInfoWindowTap), for: .touchUpInside)
+
+            // Add all elements to container
+            infoWindow.addSubview(titleLabel)
+            infoWindow.addSubview(addressLabel)
+            infoWindow.addSubview(ratingLabel)
+            infoWindow.addSubview(directionsButton)
+
+            return infoWindow
         }
+
+        // Track the currently selected marker to use with the directions button
+        var selectedMarker: GMSMarker?
+
+        // Handle marker taps
+        func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+            selectedMarker = marker
+            return false // Allow default behavior to show info window
+        }
+
+        // Handle info window taps
+        func mapView(_ mapView: GMSMapView, didTapInfoWindowOf marker: GMSMarker) {
+            openDirections(for: marker)
+        }
+
+        // Handle button taps within info window
+        @objc func handleInfoWindowTap(_ sender: UIButton) {
+            if sender.tag == 1, let marker = selectedMarker {
+                openDirections(for: marker)
+            }
+        }
+
+        // Open directions to the selected location
+        private func openDirections(for marker: GMSMarker) {
+            guard let takeout = marker.userData as? TakeoutEntity,
+                  let name = takeout.name else {
+                return
+            }
+
+            // Options to try in order of preference:
+            // 1. Use coordinates directly (most precise)
+            // 2. Use place name with coordinates as context
+
+            let position = marker.position
+            let encodedName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+
+            // Try to open in Google Maps using coordinates first
+            let googleMapsURL = URL(string: "comgooglemaps://?daddr=\(position.latitude),\(position.longitude)&directionsmode=driving&zoom=15")!
+
+            if UIApplication.shared.canOpenURL(googleMapsURL) {
+                UIApplication.shared.open(googleMapsURL, options: [:], completionHandler: nil)
+            } else {
+                // Fallback to Apple Maps with coordinates
+                let appleMapsURL = URL(string: "http://maps.apple.com/?daddr=\(position.latitude),\(position.longitude)")!
+                UIApplication.shared.open(appleMapsURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+}
+
+// Extension to use the place ID if available in your data model
+extension TakeoutEntity {
+    // This function helps get the most precise location identifier for directions
+    func getLocationIdentifier() -> String {
+        if let name = self.name {
+            // If the tagline contains an address, use that for better precision
+            if let address = self.tagline, !address.isEmpty {
+                return "\(name), \(address)"
+            }
+            return name
+        }
+
+        // Fall back to coordinates if name is not available
+        return "\(self.latitude),\(self.longitude)"
     }
 }
