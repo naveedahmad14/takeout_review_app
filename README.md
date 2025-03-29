@@ -1,4 +1,4 @@
-#GOV.UK Takeout Review App
+# GOV.UK Takeout Review App
 
 ## Project Overview
 A mobile iOS app that helps GOV.UK employees discover and review nearby food establishments using SwiftUI, Google Places API, and OpenAI integration.
@@ -41,5 +41,5 @@ cd takeout_review_app
 open govuk_review_app.xcworkspace
 ```
 
-Special Thanks
+### Special Thanks
 A huge thanks to Sunny for collaborating with me and making the AI/LLM part of the app possible! The integration adds great value to the project, and I couldn’t have done it without your contributions.
