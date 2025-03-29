@@ -10,8 +10,6 @@
 		B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = B029E4CE2D830D1E0066CE41 /* GoogleMaps */; };
 		B0B49EBE2D941D1700BB58CA /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBD2D941D1700BB58CA /* GooglePlaces */; };
 		B0B49EC02D941D1700BB58CA /* GooglePlacesSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */; };
-		B0B49F872D96303700BB58CA /* SVGKit in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49F862D96303700BB58CA /* SVGKit */; };
-		B0B49F892D96303700BB58CA /* SVGKitSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B0B49F882D96303700BB58CA /* SVGKitSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +50,6 @@
 			files = (
 				B029E4CF2D830D1E0066CE41 /* GoogleMaps in Frameworks */,
 				B0B49EBE2D941D1700BB58CA /* GooglePlaces in Frameworks */,
-				B0B49F892D96303700BB58CA /* SVGKitSwift in Frameworks */,
-				B0B49F872D96303700BB58CA /* SVGKit in Frameworks */,
 				B0B49EC02D941D1700BB58CA /* GooglePlacesSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,8 +112,6 @@
 				B029E4CE2D830D1E0066CE41 /* GoogleMaps */,
 				B0B49EBD2D941D1700BB58CA /* GooglePlaces */,
 				B0B49EBF2D941D1700BB58CA /* GooglePlacesSwift */,
-				B0B49F862D96303700BB58CA /* SVGKit */,
-				B0B49F882D96303700BB58CA /* SVGKitSwift */,
 			);
 			productName = govuk_review_app;
 			productReference = B09963182D38125800F42ACD /* govuk_review_app.app */;
@@ -198,7 +192,6 @@
 			packageReferences = (
 				B029E4CD2D830D1E0066CE41 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */,
 				B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
-				B0B49F852D96303700BB58CA /* XCRemoteSwiftPackageReference "SVGKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B09963192D38125800F42ACD /* Products */;
@@ -579,14 +572,6 @@
 				minimumVersion = 9.4.1;
 			};
 		};
-		B0B49F852D96303700BB58CA /* XCRemoteSwiftPackageReference "SVGKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SVGKit/SVGKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -604,16 +589,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B0B49EBC2D941D1700BB58CA /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
 			productName = GooglePlacesSwift;
-		};
-		B0B49F862D96303700BB58CA /* SVGKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B0B49F852D96303700BB58CA /* XCRemoteSwiftPackageReference "SVGKit" */;
-			productName = SVGKit;
-		};
-		B0B49F882D96303700BB58CA /* SVGKitSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B0B49F852D96303700BB58CA /* XCRemoteSwiftPackageReference "SVGKit" */;
-			productName = SVGKitSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

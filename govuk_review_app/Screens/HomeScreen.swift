@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import SVGKit
 
 struct HomeScreen: View {
     @Environment(\.managedObjectContext) private var viewContext
