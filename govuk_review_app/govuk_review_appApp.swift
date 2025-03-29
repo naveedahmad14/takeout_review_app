@@ -11,14 +11,22 @@ import GooglePlaces
 
 @main
 struct govuk_review_appApp: App {
-    let persistenceController = PersistenceController.shared
+    let persistenceController: PersistenceController
 
     init() {
-            GMSServices.provideAPIKey("AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4")
-            GMSPlacesClient.provideAPIKey("AIzaSyAKWNWlKobef5VQKTApBeirRY2pLirGqjU")
-            persistenceController.addData() // Add mock data when app launches
+        GMSServices.provideAPIKey("AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4")
+        GMSPlacesClient.provideAPIKey("AIzaSyAKWNWlKobef5VQKTApBeirRY2pLirGqjU")
+
+        GooglePlacesService.shared.initialize()
+
+        let persistence = PersistenceController.shared
+        self.persistenceController = persistence
+
+        DispatchQueue.main.async {
+            persistence.addData()
         }
-    
+    }
+
     var body: some Scene {
         WindowGroup {
             HomeScreen()

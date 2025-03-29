@@ -11,7 +11,6 @@ import CoreData
 struct HomeScreen: View {
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject private var viewModel = HomeViewModel()
-    @State private var selectedOffice: String = "Manchester"
     @State private var showMapView = false
     let offices = ["London", "Manchester", "Bristol"]
 
@@ -29,17 +28,14 @@ struct HomeScreen: View {
             HStack {
                 Text("Pick office")
                     .font(.system(size: 24, weight: .semibold))
-
                 Spacer()
-                menuButton
+                mapToggleButton
             }
             .padding(.horizontal)
 
             Picker("Pick office", selection: $viewModel.selectedOffice) {
                 ForEach(offices, id: \ .self) { office in
-                    Text(office)
-                        .font(.title)
-                        .tag(office)
+                    Text(office).tag(office)
                 }
             }
             .pickerStyle(MenuPickerStyle())
@@ -48,7 +44,7 @@ struct HomeScreen: View {
     }
 
     // MARK: - Takeouts List
-    private var takeoutsPicker: some View {
+    private var takeoutsList: some View {
         List(viewModel.filteredTakeouts) { takeout in
             NavigationLink(destination: ReviewsScreen(takeout: takeout)) {
                 VStack(alignment: .leading) {
@@ -73,10 +69,7 @@ struct HomeScreen: View {
     private func imageGallery(for takeout: TakeoutEntity) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack(spacing: 10) {
-                ForEach(takeout.imageDataArray.compactMap {
-                    print("🖼️ Image loaded for \(takeout.name ?? "Unknown")")
-                    return UIImage(data: $0)
-                }, id: \.self) { uiImage in
+                ForEach(takeout.imageDataArray.compactMap { UIImage(data: $0) }, id: \ .self) { uiImage in
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
@@ -89,113 +82,59 @@ struct HomeScreen: View {
         }
     }
 
-    func debugCoreData() {
-        let fetchRequest: NSFetchRequest<TakeoutEntity> = TakeoutEntity.fetchRequest()
-
-        do {
-            let results = try PersistenceController.shared.context.fetch(fetchRequest)
-            for takeout in results {
-                print("🍔 Takeout: \(takeout.name ?? "Unknown") - Images: \(takeout.imageDataArray.count)")
-            }
-        } catch {
-            print("❌ Failed to fetch takeouts: \(error)")
-        }
-    }
-
-    // MARK: - Delete Data Button
-        private var deleteTakeouts: some View {
-            Button(action: {
-                PersistenceController.shared.deleteAllData()
-                viewModel.fetchTakeouts()
-            }) {
-                Text("Delete Mock Data")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
-            }
-        }
-
-
-    // MARK: - Map/List Button
-    private var menuButton: some View {
-//        Menu {
-//            Button(action: { showMapView = false }) {
-//                Label("List View", systemImage: "list.bullet")
-//            }
-//            Button(action: { showMapView = true }) {
-//                Label("Map View", systemImage: "map")
-//            }
-//        } label: {
-//            Image(systemName: "ellipsis.circle")
-//                .font(.title)
-//                .foregroundColor(.black)
-//        }
-
+    // MARK: - Map/List Toggle Button
+    private var mapToggleButton: some View {
         Picker("", selection: $showMapView) {
             Text("List").tag(false)
             Text("Map").tag(true)
         }
-        .pickerStyle(SegmentedPickerStyle()) // Makes it a toggle-style switch
-        .frame(width: 120) // Adjust width as needed
+        .pickerStyle(SegmentedPickerStyle())
+        .frame(width: 120)
     }
 
-    // MARK: - AI Chat button
-    private var AIButton: some View {
+    // MARK: - AI Chat Button
+    private var aiChatButton: some View {
         HStack {
-            Spacer() // Pushes button to center
+            Spacer()
             NavigationLink(destination: AIChatScreen()) {
                 Text("Chat for AI recommendations")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding()
-                    .frame(width: 350) // Adjust width to maintain consistent size
+                    .frame(width: 350)
                     .background(Color.blue)
                     .cornerRadius(10)
             }
-            Spacer() // Pushes button to center
+            Spacer()
         }
-        .padding(.bottom, 5) // Adjust padding to keep it at the same height
+        .padding(.bottom, 5)
     }
 
-
-
-        // MARK: - Body
-        var body: some View {
-            NavigationView {
-                VStack {
-                    header
-                    HStack {
-                        VStack(alignment: .leading, spacing: -8) {
-                            officePicker
-                            if showMapView {
-                                MapView(takeouts: viewModel.filteredTakeouts, selectedOffice: viewModel.selectedOffice)
-                                    .frame(height: 400)
-                                    .cornerRadius(10)
-                            } else {
-                                takeoutsPicker
-                            }
-                            //deleteTakeouts
-                            Spacer()
-                        }
-                        .onAppear { viewModel.fetchTakeouts()
-                            debugCoreData()
-}
-                        .padding(.leading, -15)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .frame(height: 550)
-                        .cornerRadius(5)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 0.5)
-                        )
-                        Spacer()
+    // MARK: - Body
+    var body: some View {
+        NavigationView {
+            VStack {
+                header
+                VStack(alignment: .leading) {
+                    officePicker
+                    if showMapView {
+                        MapView(takeouts: viewModel.filteredTakeouts, selectedOffice: viewModel.selectedOffice)
+                            .frame(height: 400)
+                            .cornerRadius(10)
+                    } else {
+                        takeoutsList
                     }
-                    AIButton
+                    Spacer()
                 }
-                .padding(20)
+                .onAppear { viewModel.fetchTakeouts() }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 0.5)
+                )
+                aiChatButton
             }
+            .padding(20)
         }
     }
+}
