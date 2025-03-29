@@ -16,8 +16,6 @@ final class GooglePlacesService {
     private init() {}
 
     func initialize() {
-        GMSServices.provideAPIKey("AIzaSyC3YyhL4sC5fWp59cDn5Ek7IqErZuRdNB4")
-        GMSPlacesClient.provideAPIKey("AIzaSyAKWNWlKobef5VQKTApBeirRY2pLirGqjU")
     }
 
     private let placesClient = GMSPlacesClient.shared()
