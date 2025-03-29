@@ -1,4 +1,4 @@
-# GovEats: GOV.UK Takeout Review App
+#GOV.UK Takeout Review App
 
 ## Project Overview
 A mobile iOS app that helps GOV.UK employees discover and review nearby food establishments using SwiftUI, Google Places API, and OpenAI integration.
@@ -26,8 +26,12 @@ A mobile iOS app that helps GOV.UK employees discover and review nearby food est
 
 ## Setup Instructions
 1. Clone repository
-2. Add API keys to `Config.swift`
-3. Run in Xcode
+2. Add API keys to `govuk_review_appApp.swift`
+3. Clone and set up the backend repository for AI integration: [takeout_backend](https://github.com/Sunny-xyz/takeout_backend)
+4. Run in Xcode
+
+### Backend Setup
+To enable the AI-powered food recommendations and reviews in your app, you will need to set up the backend. Please follow the instructions in the [takeout_backend repository](https://github.com/Sunny-xyz/takeout_backend) to configure the necessary API endpoints and models.
 
 ## Quick Start
 ```bash
@@ -36,3 +40,6 @@ cd takeout_review_app
 # Add API keys
 open govuk_review_app.xcworkspace
 ```
+
+Special Thanks
+A huge thanks to Sunny for collaborating with me and making the AI/LLM part of the app possible! The integration adds great value to the project, and I couldn’t have done it without your contributions.
