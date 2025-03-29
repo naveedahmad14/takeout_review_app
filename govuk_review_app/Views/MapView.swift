@@ -178,20 +178,3 @@ struct MapView: UIViewRepresentable {
         }
     }
 }
-
-// Extension to use the place ID if available in your data model
-extension TakeoutEntity {
-    // This function helps get the most precise location identifier for directions
-    func getLocationIdentifier() -> String {
-        if let name = self.name {
-            // If the tagline contains an address, use that for better precision
-            if let address = self.tagline, !address.isEmpty {
-                return "\(name), \(address)"
-            }
-            return name
-        }
-
-        // Fall back to coordinates if name is not available
-        return "\(self.latitude),\(self.longitude)"
-    }
-}
