@@ -42,4 +42,4 @@ open govuk_review_app.xcworkspace
 ```
 
 ### Special Thanks
-A huge thanks to Sunny for collaborating with me and making the AI/LLM part of the app possible! The integration adds great value to the project, and I couldn’t have done it without your contributions.
+A huge thanks to [Sunny](https://github.com/Sunny-xyz) for collaborating with me and making the AI/LLM part of the app possible! The integration adds great value to the project, and I couldn’t have done it without your contributions.
