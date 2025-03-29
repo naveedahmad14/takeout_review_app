@@ -31,7 +31,7 @@ A mobile iOS app that helps GOV.UK employees discover and review nearby food est
 4. Run in Xcode
 
 ## Backend Setup
-To enable the AI-powered food recommendations and reviews in your app, you will need to set up the backend. Please follow the instructions in the [takeout_backend repository](https://github.com/Sunny-xyz/takeout_backend) to configure the necessary API endpoints and models.
+To enable the AI-powered food recommendations in your app, you will need to set up the backend. Please follow the instructions in the [takeout_backend repository](https://github.com/Sunny-xyz/takeout_backend) to configure the necessary API endpoints and models.
 
 ## Quick Start
 ```bash
